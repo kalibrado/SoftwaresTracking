@@ -1,7 +1,32 @@
 @echo off
 setlocal enabledelayedexpansion
 
-set SoftwareList=chrome calc code
+REM Remplacez les logiciels suivants par ceux que vous souhaitez surveiller
+set "SoftwareList=msedge"
+
+REM Chemin d'accès et nom du fichier de sortie
+set "OutputFile=./data/suivi_logiciels_batch.csv"
+
+REM Verifie si le dossier existe, sinon le cree
+if not exist "./data" mkdir "./data"
+
+REM Cree un etat pour chaque programme dans la variable SoftwareList
+for %%i in (%SoftwareList%) do (
+    set "SoftwareState[%%i]=false"
+    set "StartTime[%%i]="
+)
+
+REM Boucle à l'infini
+:loop
+REM Obtient la liste des processus en cours d'execution
+set "Processes="
+for /f "usebackq tokens=1" %%a in (`tasklist /fo csv ^| findstr /i /c:"\".*\""`) do (
+    for %%b in (%%a) do (
+        set "Processes=!Processes! %%~b"
+    )@echo off
+setlocal enabledelayedexpansion
+
+set SoftwareList=chrome msedge code
 set OutputFile=./data/suivi_logiciels_batch.csv
 
 REM Crée le fichier CSV avec l'en-tête s'il n'existe pas
@@ -101,3 +126,53 @@ echo Attente de 5 secondes...
 ping -n 6 127.0.0.1 >nul
 
 goto :loop
+
+)
+
+REM Parcourt chaque logiciel de la liste
+for %%i in (%SoftwareList%) do (
+    REM Verifie si le logiciel est en cours d'execution
+    echo !Processes! | findstr /i /c:"%%i" >nul
+    if !errorlevel! equ 0 (
+        REM Le logiciel est ouvert
+        if not !SoftwareState[%%i]! equ true (
+            REM Met à jour l'etat et l'heure de debut
+            set "SoftwareState[%%i]=true"
+            for /f "usebackq tokens=3,4" %%a in (`tasklist /fo csv ^| findstr /i /c:"\"%%i\"`) do (
+                set "StartTime[%%i]=%%~a %%~b"
+            )
+
+            echo Le logiciel '%%i' a ete ouvert le !StartTime[%%i]!
+        )
+    ) else (
+        REM Le logiciel a ete ferme
+        if !SoftwareState[%%i]! equ true (
+            REM Calcule la duree d'ouverture en secondes
+            for /f "tokens=1-3 delims=:." %%a in ("%TIME%") do (
+                set "EndTime=%%a:%%b:%%c"
+            )
+            for /f "tokens=1-4 delims=/: " %%a in ("!DATE!") do (
+                set "EndDate=%%c-%%b-%%a"
+            )
+
+            set "StartTime[%%i]="
+            set "SoftwareState[%%i]=false"
+
+            echo Le logiciel '%%i' a ete ferme le !EndDate! !EndTime!
+
+            REM Calcule la duree d'execution en secondes
+            for /f "tokens=1-4 delims=/:. " %%a in ("!EndDate! !EndTime! !StartDate! !StartTime[%%i]!") do (
+                set /a "Duration=(((%%e*24+%%f)*60+%%g)*60+%%h)-(((%%a*24+%%b)*60+%%c)*60+%%d)"
+            )
+
+            REM Ajoute une nouvelle ligne au fichier CSV
+            echo %%i,!StartDate! !StartTime[%%i]!,!EndDate! !EndTime!,!Duration!,%USERNAME% >> "%OutputFile%"
+
+            echo Nouveau logiciel ajoute au fichier CSV : '%%i'
+        )
+    )
+)
+
+REM Attendre 1 seconde avant la prochaine iteration
+ping -n 2 127.0.0.1 >nul
+goto loop
