@@ -56,3 +56,9 @@ Le script continuera à s'exécuter jusqu'à ce que vous le fermiez manuellement
 # 😱 Remarque : Assurez-vous d'avoir les autorisations nécessaires pour créer et modifier des fichiers dans le répertoire spécifié pour le fichier de sortie CSV.
 
 ## Note : Ce script a été conçu pour être exécuté en continu et n'a pas de mécanisme intégré pour être arrêté automatiquement. Veillez à le surveiller et à l'arrêter manuellement lorsque vous avez terminé son utilisation.
+
+# Capture 
+
+![Sortie csv ](https://github.com/kalibrado/suivi_logiciels/blob/master/sortie_csv.png?raw=true)
+
+![Sortie console ](https://github.com/kalibrado/suivi_logiciels/blob/master/sortie_console.png?raw=true)
