@@ -35,7 +35,7 @@ The PowerShell/Batch Software Tracking script provides a convenient solution for
    ```
 2. Specify the path and name of the CSV output file in the $OutputFile variable. For example, use the following line to save the file in the data folder with the name continued_software_power_shell.csv:
     ```powershell
-   $OutputFile = "./data/suivi_logiciels_power_shell.csv"
+   $OutputFile = "./data/traking_power_shell.csv"
    ```
 3. Navigate to the file directory:
       ```powershell
@@ -47,7 +47,7 @@ The PowerShell/Batch Software Tracking script provides a convenient solution for
     ```
 5. Run the script using PowerShell. The script will continuously monitor the software and update the CSV file every time a software is opened and then closed.
     ```powershell
-   ./susivi_softiels.ps1
+   ./powershell_traking.ps1
    ```
 
 The script will continue to run until you manually close it by pressing Ctrl + C in the PowerShell window.
