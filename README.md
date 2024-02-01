@@ -1,61 +1,60 @@
-# Suivi de temps d'exécution des logiciels Windows
+# Windows software execution time tracking
 
-## TODO : le script batch en cours de dev 😜
+## TODO: the batch script currently being developed 😜
 
 ## 📚 Description
 
-Le script "Suivi des logiciels PowerShell/Batch" est un outil qui permet de surveiller l'ouverture et la fermeture de logiciels spécifiques sur un système Windows. Il enregistre ces informations dans un fichier CSV, fournissant ainsi un suivi précis du temps d'exécution de chaque logiciel.
-L'objectif principal de ce script est de permettre aux utilisateurs de suivre et d'analyser l'utilisation de certains logiciels, que ce soit pour des raisons de productivité, de surveillance ou de facturation. Il peut être utilisé dans divers contextes, tels que les environnements professionnels, les établissements d'enseignement ou même pour un usage personnel.
+The PowerShell/Batch Software Monitoring script is a tool for monitoring the opening and closing of specific software on a Windows system. It saves this information in a CSV file, providing accurate tracking of each software's execution time.
+The main purpose of this script is to allow users to track and analyze the usage of certain software, whether for productivity, monitoring or billing reasons. It can be used in various settings, such as professional environments, educational institutions or even for personal use.
 
-Le script crée un fichier CSV avec les colonnes suivantes :
-- Logiciel : le nom du logiciel
-- Démarrer le : l'heure de début de l'exécution
-- Fermer le : l'heure de fin de l'exécution
-- Temps d'exécution (secondes) : la durée d'exécution en secondes
-- Utilisateur : le nom de l'utilisateur actuel
+The script creates a CSV file with the following columns:
+- Software: the name of the software
+- Start on: the start time of the execution
+- Close on: the end time of the execution
+- Execution time (seconds): the execution time in seconds
+- User: the name of the current user
   
 ---
+## 💪 Features
 
-## 💪 Fonctionnalités
-
-  - Surveillance en temps réel : Le script surveille en permanence les processus en cours d'exécution sur le système et détecte les logiciels spécifiés dans une liste prédéfinie.
-  - Enregistrement des données : Chaque fois qu'un logiciel est détecté comme étant ouvert, le script enregistre l'heure de début de l'exécution. Lorsque le logiciel est fermé, il enregistre l'heure de fin et calcule la durée d'exécution en secondes.
-  - Fichier CSV : Les informations collectées sont stockées dans un fichier CSV (Comma-Separated Values), qui est un format couramment utilisé pour stocker des données tabulaires. Le fichier CSV contient les colonnes suivantes : Logiciel, Démarrer le, Fermer le, Temps d'exécution (secondes), Utilisateur.
-  - Mise à jour dynamique : Le fichier CSV est mis à jour en ajoutant une nouvelle ligne pour chaque ouverture et fermeture de logiciel détectée. Ainsi, l'utilisateur dispose d'un suivi détaillé et chronologique de chaque utilisation.
-  - Personnalisation : L'utilisateur peut spécifier les logiciels à surveiller en modifiant la liste des logiciels dans le script. Il peut également définir le chemin d'accès et le nom du fichier CSV de sortie selon ses besoins.
-  
+  - Real-time monitoring: The script continuously monitors processes running on the system and detects software specified in a predefined list.
+  - Data logging: Every time a software is detected to be open, the script records the execution start time. When the software is closed, it records the end time and calculates the execution time in seconds.
+  - CSV file: The collected information is stored in a CSV (Comma-Separated Values) file, which is a commonly used format for storing tabular data. The CSV file contains the following columns: Software, Start on, Close on, Execution time (seconds), User.
+  - Dynamic update: The CSV file is updated by adding a new line for each software opening and closing detected. Thus, the user has detailed and chronological monitoring of each use.
+  - Customization: The user can specify the software to monitor by modifying the list of software in the script. It can also set the path and name of the output CSV file as needed.
 ---
 
-Le script "Suivi des logiciels PowerShell/Batch" offre une solution pratique pour suivre et enregistrer l'utilisation des logiciels, offrant ainsi aux utilisateurs une meilleure compréhension de leur temps d'exécution et de leur productivité.
+The PowerShell/Batch Software Tracking script provides a convenient solution for tracking and recording software usage, giving users a better understanding of their execution time and productivity.
 
-## 🏓 Utilisation du script PowerShell
+## 🏓 Using PowerShell script
 
-1. Modifiez la liste des logiciels à surveiller en remplaçant les valeurs de la variable `$SoftwareList`. Par exemple, si vous souhaitez surveiller les logiciels "chrome", "msedge" et "code", utilisez la ligne suivante :
+
+1. Modify the list of software to monitor by replacing the values ​​of the `$SoftwareList` variable. For example, if you want to monitor "chrome", "msedge" and "code" software, use the following line:
    ```powershell
    $SoftwareList = @("chrome", "msedge", "code")
    ```
-2. Spécifiez le chemin d'accès et le nom du fichier de sortie CSV dans la variable $OutputFile. Par exemple, utilisez la ligne suivante pour enregistrer le fichier dans le dossier data avec le nom suivi_logiciels_power_shell.csv :
+2. Specify the path and name of the CSV output file in the $OutputFile variable. For example, use the following line to save the file in the data folder with the name continued_software_power_shell.csv:
     ```powershell
    $OutputFile = "./data/suivi_logiciels_power_shell.csv"
    ```
-3. Accédez au répertoire du fichier :
+3. Navigate to the file directory:
       ```powershell
-      cd /chemin/vers/le/dossier
+      cd /path/to/the/folder
       ```
-4. Accordez les droits d'exécution :
+4. Grant execution rights:
     ```powershell
     Set-ExecutionPolicy -ExecutionPolicy Unrestricted
     ```
-5. Exécutez le script en utilisant PowerShell. Le script surveillera en continu les logiciels et mettra à jour le fichier CSV chaque fois qu'un logiciel est ouvert puis fermé.
+5. Run the script using PowerShell. The script will continuously monitor the software and update the CSV file every time a software is opened and then closed.
     ```powershell
-   ./suivi_logiciels.ps1
+   ./susivi_softiels.ps1
    ```
 
-Le script continuera à s'exécuter jusqu'à ce que vous le fermiez manuellement en appuyant sur Ctrl + C dans la fenêtre PowerShell.
+The script will continue to run until you manually close it by pressing Ctrl + C in the PowerShell window.
 
-# 😱 Remarque : Assurez-vous d'avoir les autorisations nécessaires pour créer et modifier des fichiers dans le répertoire spécifié pour le fichier de sortie CSV.
+# 😱 Note: Make sure you have the necessary permissions to create and modify files in the directory specified for the output CSV file.
 
-## Note : Ce script a été conçu pour être exécuté en continu et n'a pas de mécanisme intégré pour être arrêté automatiquement. Veillez à le surveiller et à l'arrêter manuellement lorsque vous avez terminé son utilisation.
+## This script was designed to run continuously and does not have a built-in mechanism to be stopped automatically. Be sure to monitor it and manually turn it off when you are finished using it.
 
 # Capture 
 
