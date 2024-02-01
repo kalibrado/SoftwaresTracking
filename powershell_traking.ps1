@@ -1,13 +1,16 @@
-$SoftwareList = @("msedge")  # Remplacez par vos logiciels
-$OutputFile = "./data/suivi_logiciels_power_shell.csv"  # Chemin d'accès et nom du fichier de sorti
+# Replace with your software
+$SoftwareList = @("msedge")  
 
-# Verifie si le dossier existe, sinon le cree
+# Path and name of the output file
+$OutputFile = "./data/traking_power_shell.csv" 
+
+# Checks if the folder exists, otherwise creates it
 $FolderPath = Split-Path $OutputFile -Parent
 if (-not (Test-Path $FolderPath)) {
     New-Item -ItemType Directory -Path $FolderPath | Out-Null
 }
 
-# Crée un etat pour chaque programe dans la variable SoftwareList
+# Creates a state for each program in the SoftwareList variable
 $SoftwareState = @{}
 foreach ($Software in $SoftwareList) {
     $SoftwareState[$Software] = @{
@@ -16,50 +19,50 @@ foreach ($Software in $SoftwareList) {
     }
 }
 
-# Boucle a l'infinie
+# Infinite loop
 while ($true) {
     $Processes = Get-Process | Where-Object { $SoftwareList -contains $_.Name }
     foreach ($Software in $SoftwareList) {
         if ($Processes.Name -contains $Software) {
             if (-not $SoftwareState[$Software].Opened) {
-                # Le logiciel est ouvert, met a jour l'etat et l'heure de debut
+                # Software is opened, updates status and start time
                 $SoftwareState[$Software].Opened = $true
                 $SoftwareState[$Software].StartTime = Get-Date
 
-                Write-Host "Le logiciel '$Software' a ete ouvert le $($SoftwareState[$Software].StartTime)"
+                Write-Host "The software '$Software' was opened on $($SoftwareState[$Software].StartTime)"
             }
         }
         else {
             if ($SoftwareState[$Software].Opened) {
-                # Le logiciel a ete ferme, calcule la duree d'ouverture en minutes
+                # The software has been closed, calculates the opening time in minutes
                 $StartTime = $SoftwareState[$Software].StartTime
                 $EndTime = Get-Date
                 $Duration = [math]::Round(($EndTime - $StartTime).TotalSeconds)
 
-                Write-Host "Le logiciel '$Software' a ete ferme le $EndTime"
+                Write-Host "The software '$Software' was closed on $EndTime"
 
                 $NewSoftware = [PSCustomObject]@{
-                    Logiciel                      = $Software
-                    "Demarrer le"                 = $StartTime.ToString("dd-MM-yyyy HH:mm:ss")
-                    "Fermer le"                   = $EndTime.ToString("dd-MM-yyyy HH:mm:ss")
-                    "Temps executions (secondes)" = $Duration
-                    "Utilisateur"                 = $env:USERNAME
+                    Software                       = $Software
+                    "Start on"                     = $StartTime.ToString("dd-MM-yyyy HH:mm:ss")
+                    "Close on"                     = $EndTime.ToString("dd-MM-yyyy HH:mm:ss")
+                    "Execution time (seconds)"     = $Duration
+                    "User"                         = $env:USERNAME
                 }
 
-                # Verifie si le fichier CSV existe deja
+                # Check if the CSV file already exists
                 $csvExists = Test-Path $OutputFile
 
                 if (-not $csvExists) {
-                    # Cree le fichier CSV avec l'en-tête s'il n'existe pas
-                    "Logiciel, Demarrer le, Fermer le, Temps executions (secondes), Utilisateur" | Out-File -FilePath $OutputFile -Encoding utf8
+                    # Create the CSV file with the header if it does not exist
+                    "Software, Start on, Close on, Execution time (seconds), User" | Out-File -FilePath $OutputFile -Encoding utf8
                 }
 
-                # Ajoute la nouvelle ligne au fichier CSV
+                # Add the new line to the CSV file
                 $NewSoftware | ConvertTo-Csv -NoTypeInformation -Delimiter "," | Select-Object -Skip 1 | Out-File -FilePath $OutputFile -Append -Encoding utf8
 
-                Write-Host "Nouveau logiciel ajoute au fichier CSV : '$Software'"
+                Write-Host "New software adds to CSV file: '$Software'"
                 
-                # Reinitialise l'etat et l'heure de debut du logiciel
+                # Resets software status and start time
                 $SoftwareState[$Software].Opened = $false
                 $SoftwareState[$Software].StartTime = $null
             }
