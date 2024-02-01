@@ -1,24 +1,24 @@
 @echo off
 setlocal enabledelayedexpansion
 
-REM Remplacez les logiciels suivants par ceux que vous souhaitez surveiller
+REM Replace the following software with the ones you want to monitor
 set "SoftwareList=msedge"
 
-REM Chemin d'accès et nom du fichier de sortie
-set "OutputFile=./data/suivi_logiciels_batch.csv"
+REM Path and name of output file
+set "OutputFile=./data/traking_batch.csv"
 
-REM Verifie si le dossier existe, sinon le cree
+REM Check if the folder exists, otherwise create it
 if not exist "./data" mkdir "./data"
 
-REM Cree un etat pour chaque programme dans la variable SoftwareList
+REM Creates a state for each program in the SoftwareList variable
 for %%i in (%SoftwareList%) do (
     set "SoftwareState[%%i]=false"
     set "StartTime[%%i]="
 )
 
-REM Boucle à l'infini
+REM Infinity loop
 :loop
-REM Obtient la liste des processus en cours d'execution
+REM Gets the list of currently running processes
 set "Processes="
 for /f "usebackq tokens=1" %%a in (`tasklist /fo csv ^| findstr /i /c:"\".*\""`) do (
     for %%b in (%%a) do (
