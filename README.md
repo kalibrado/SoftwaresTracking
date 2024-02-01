@@ -56,7 +56,7 @@ The script will continue to run until you manually close it by pressing Ctrl + C
 
 ## This script was designed to run continuously and does not have a built-in mechanism to be stopped automatically. Be sure to monitor it and manually turn it off when you are finished using it.
 
-# Capture 
+# Screenshot 
 
 ![Sortie csv ](https://github.com/kalibrado/suivi_logiciels/blob/master/sortie_csv.png?raw=true)
 
