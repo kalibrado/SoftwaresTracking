@@ -61,3 +61,6 @@ The script will continue to run until you manually close it by pressing Ctrl + C
 ![Sortie csv ](https://github.com/kalibrado/suivi_logiciels/blob/master/sortie_csv.png?raw=true)
 
 ![Sortie console ](https://github.com/kalibrado/suivi_logiciels/blob/master/sortie_console.png?raw=true)
+
+
+[!["Buy Me A Beer"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/leonardofod)
